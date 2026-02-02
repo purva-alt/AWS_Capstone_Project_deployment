@@ -1,0 +1,214 @@
+body, html {
+    margin: 0;
+    height: 100%;
+    font-family: Segoe UI, Arial;
+}
+
+/* Full screen background */
+.hero {
+    background: url("images/test.png") no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Overlay card */
+.overlay {
+    background: rgba(255,255,255,0.85);
+    padding: 60px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+}
+
+.overlay h1 {
+    color: #0a4dff;
+    font-size: 42px;
+}
+
+.overlay p {
+    font-size: 18px;
+}
+
+.overlay button {
+    background: #0a4dff;
+    border: none;
+    color: white;
+    padding: 14px 30px;
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.overlay button:hover {
+    background: #0836c9;
+}
+
+/* Footer */
+.footer {
+    background: #0a4dff;
+    color: white;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+/* AUTH PAGES */
+
+.auth-page {
+    background: linear-gradient(120deg,#0a4dff,#6fb1ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    background: white;
+    width: 360px;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+    text-align: center;
+}
+
+.auth-card h2 {
+    color: #0a4dff;
+    margin-bottom: 20px;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.auth-card button {
+    width: 100%;
+    background: #0a4dff;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.auth-card button:hover {
+    background:#0836c9;
+}
+
+.auth-card p {
+    margin-top: 15px;
+}
+
+.auth-card a {
+    color:#0a4dff;
+    text-decoration:none;
+    font-weight:500;
+}
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+/* DASHBOARD */
+
+.dashboard-container{
+    padding:40px;
+    background:#f4f8ff;
+    min-height:100vh;
+}
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.dashboard-header h2{
+    color:#0a4dff;
+}
+
+.balance-card{
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+    font-size:26px;
+    margin-bottom:30px;
+}
+
+.action-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.action-box{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+    transition:0.3s;
+}
+
+.action-box:hover{
+    transform:translateY(-5px);
+}
+
+.action-box a{
+    text-decoration:none;
+    color:#0a4dff;
+    font-weight:600;
+}
+/* DASHBOARD BACKGROUND */
+
+.dashboard-page {
+    background: url("images/dashboard.png") no-repeat center center/cover;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+/* Light glass effect on dashboard content */
+
+.dashboard-overlay {
+    background: rgba(255, 255, 255, 0.655);
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+}
+/* DASHBOARD BUTTON STYLE */
+
+.dashboard-links a {
+    display: inline-block;
+    padding: 12px 22px;
+    margin: 8px;
+    border: 2px solid #0a4dff;
+    color: #0a4dff;
+    text-decoration: none;   /* 🚫 removes underline */
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.dashboard-links a:hover {
+    background: #0a4dff;
+    color: white;
+}
+/* NAVBAR */
+.navbar {
+    background: #8194c8;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}

@@ -1,0 +1,24 @@
+<div class="navbar">
+  <div class="logo">CloudBank</div>
+  <div>
+    <a href="/">Home</a>
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+    <a href="/dashboard">Dashboard</a>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<div class="container">
+<div class="card">
+<h2>Transaction History</h2>
+
+{% for t in transactions %}
+<p>{{t.type}} | ₹{{t.amount}} | {{t.date}}</p>
+{% endfor %}
+
+</div>
+</div>
+<footer class="footer">
+  &copy; 2024 Cloud Bank. All rights reserved.

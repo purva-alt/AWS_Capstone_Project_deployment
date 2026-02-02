@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard | CloudBank</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-page">
+
+<div class="dashboard-overlay">
+
+<h2>Welcome to CloudBank</h2>
+<p><strong>Balance:</strong> ₹{{ balance }}</p>
+
+<br>
+<p>Choose an action below to manage your account:</p>
+<div class="dashboard-links">
+
+<a href="/deposit">Deposit</a>
+<a href="/withdraw">Withdraw</a>
+<a href="/transfer">Transfer</a>
+<a href="/transactions">History</a>
+<a href="/logout">Logout</a>
+<a href="/profile">Profile</a>
+</div>
+<div class="dashboard-links">
+
+
+</body>
+</html>
