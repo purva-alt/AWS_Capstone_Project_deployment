@@ -1,277 +1,254 @@
-import sqlite3
+import bcrypt
+import boto3
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime
 from functools import wraps
+from decimal import Decimal
 
 app = Flask(__name__)
 app.secret_key = "cloudbank_secret"
 
-# ---------------- DATABASE CONNECTION ---------------- #
+AWS_REGION = "us-east-1"
 
-def get_db():
-    return sqlite3.connect("bank.db")
+# ================= AWS CONNECTION =================
 
-# ---------------- CREATE TABLES ---------------- #
+dynamodb = boto3.resource("dynamodb", region_name=AWS_REGION)
+sns = boto3.client("sns", region_name=AWS_REGION)
 
-def init_db():
-    conn = get_db()
-    cur = conn.cursor()
+users_table = dynamodb.Table("Users")
+accounts_table = dynamodb.Table("Accounts")
+transactions_table = dynamodb.Table("Transactions")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT UNIQUE,
-        password TEXT
-    )
-    """)
+SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:686255943052:AWS_PROJECT_DEPLOYMENT"
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS accounts (
-        user_id INTEGER,
-        balance REAL DEFAULT 0
-    )
-    """)
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS transactions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        type TEXT,
-        amount REAL,
-        date TEXT
-    )
-    """)
-
-    conn.commit()
-    conn.close()
-
-init_db()
-
-# ---------------- LOGIN REQUIRED ---------------- #
+# ================= HELPERS =================
 
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if "user_id" not in session:
-            flash("Login first")
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return wrap
 
-# ---------------- HOME ---------------- #
+
+def send_alert(message):
+    try:
+        sns.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Message=message,
+            Subject="Cloud Bank Notification"
+        )
+    except Exception as e:
+        print("SNS ERROR:", e)
+
+
+# ================= HOME =================
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("index.html")
 
-# ---------------- REGISTER ---------------- #
+# ================= REGISTER =================
 
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":
-        name = request.form["name"]
+
         email = request.form["email"]
-        password = request.form["password"]
 
-        conn = get_db()
-        cur = conn.cursor()
-
-        try:
-            cur.execute("INSERT INTO users (name,email,password) VALUES (?,?,?)",
-                        (name,email,password))
-            user_id = cur.lastrowid
-
-            cur.execute("INSERT INTO accounts (user_id,balance) VALUES (?,?)",
-                        (user_id,0))
-
-            conn.commit()
-            flash("Registration successful!")
+        if "Item" in users_table.get_item(Key={"email": email}):
+            flash("Account already exists. Please login.")
             return redirect(url_for("login"))
 
-        except:
-            flash("Email already registered")
+        hashed = bcrypt.hashpw(
+            request.form["password"].encode(),
+            bcrypt.gensalt()
+        ).decode()
 
-        conn.close()
+        users_table.put_item(Item={
+            "email": email,
+            "first_name": request.form["first_name"],
+            "last_name": request.form["last_name"],
+            "dob": request.form["dob"],
+            "account_number": request.form["account_number"],
+            "address": request.form["address"],
+            "phone": request.form["phone"],
+            "password": hashed
+        })
+
+        accounts_table.put_item(Item={
+            "email": email,
+            "balance": Decimal("0")
+        })
+
+        send_alert(f"New Cloud Bank account created: {email}")
+
+        flash("Account created successfully!")
+        return redirect(url_for("login"))
 
     return render_template("register.html")
 
-# ---------------- LOGIN ---------------- #
+# ================= LOGIN =================
 
 @app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
+
         email = request.form["email"]
         password = request.form["password"]
 
-        conn = get_db()
-        cur = conn.cursor()
+        response = users_table.get_item(Key={"email": email})
+        user = response.get("Item")
 
-        cur.execute("SELECT id FROM users WHERE email=? AND password=?",
-                    (email,password))
-        user = cur.fetchone()
-
-        conn.close()
-
-        if user:
-            session["user_id"] = user[0]
-            flash("Login successful!")
+        if user and bcrypt.checkpw(password.encode(), user["password"].encode()):
+            session["user_id"] = email
             return redirect(url_for("dashboard"))
 
         flash("Invalid credentials")
 
     return render_template("login.html")
 
-# ---------------- LOGOUT ---------------- #
+# ================= LOGOUT =================
 
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("Logged out")
     return redirect(url_for("home"))
 
-# ---------------- DASHBOARD ---------------- #
+# ================= DASHBOARD =================
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    conn = get_db()
-    cur = conn.cursor()
-
-    cur.execute("SELECT balance FROM accounts WHERE user_id=?",
-                (session["user_id"],))
-    balance = cur.fetchone()[0]
-
-    conn.close()
+    acc = accounts_table.get_item(Key={"email": session["user_id"]})
+    balance = acc["Item"]["balance"]
 
     return render_template("dashboard.html", balance=balance)
 
-# ---------------- DEPOSIT ---------------- #
+# ================= PROFILE =================
+
+@app.route("/profile")
+@login_required
+def profile():
+    user = users_table.get_item(Key={"email": session["user_id"]})["Item"]
+    return render_template("profile.html", user=user)
+
+# ================= DEPOSIT =================
 
 @app.route("/deposit", methods=["GET","POST"])
 @login_required
 def deposit():
     if request.method == "POST":
-        amount = float(request.form["amount"])
 
-        conn = get_db()
-        cur = conn.cursor()
+        amount = Decimal(request.form["amount"])
 
-        cur.execute("UPDATE accounts SET balance = balance + ? WHERE user_id=?",
-                    (amount,session["user_id"]))
+        accounts_table.update_item(
+            Key={"email": session["user_id"]},
+            UpdateExpression="SET balance = balance + :a",
+            ExpressionAttributeValues={":a": amount}
+        )
 
-        cur.execute("""INSERT INTO transactions 
-                       (user_id,type,amount,date) 
-                       VALUES (?,?,?,?)""",
-                    (session["user_id"],"Deposit",amount,str(datetime.now())))
+        transactions_table.put_item(Item={
+            "email": session["user_id"],
+            "timestamp": str(datetime.utcnow()),
+            "type": "Deposit",
+            "amount": amount
+        })
 
-        conn.commit()
-        conn.close()
+        send_alert(f"Deposit of ₹{amount} to {session['user_id']}")
 
-        flash("Money deposited!")
         return redirect(url_for("dashboard"))
 
     return render_template("deposit.html")
 
-# ---------------- WITHDRAW ---------------- #
+# ================= WITHDRAW =================
 
 @app.route("/withdraw", methods=["GET","POST"])
 @login_required
 def withdraw():
     if request.method == "POST":
-        amount = float(request.form["amount"])
 
-        conn = get_db()
-        cur = conn.cursor()
+        amount = Decimal(request.form["amount"])
 
-        cur.execute("SELECT balance FROM accounts WHERE user_id=?",
-                    (session["user_id"],))
-        balance = cur.fetchone()[0]
+        acc = accounts_table.get_item(Key={"email": session["user_id"]})["Item"]
 
-        if balance < amount:
+        if acc["balance"] < amount:
             flash("Insufficient balance")
             return redirect(url_for("withdraw"))
 
-        cur.execute("UPDATE accounts SET balance = balance - ? WHERE user_id=?",
-                    (amount,session["user_id"]))
+        accounts_table.update_item(
+            Key={"email": session["user_id"]},
+            UpdateExpression="SET balance = balance - :a",
+            ExpressionAttributeValues={":a": amount}
+        )
 
-        cur.execute("""INSERT INTO transactions 
-                       (user_id,type,amount,date) 
-                       VALUES (?,?,?,?)""",
-                    (session["user_id"],"Withdraw",amount,str(datetime.now())))
+        transactions_table.put_item(Item={
+            "email": session["user_id"],
+            "timestamp": str(datetime.utcnow()),
+            "type": "Withdraw",
+            "amount": amount
+        })
 
-        conn.commit()
-        conn.close()
+        send_alert(f"Withdraw of ₹{amount} from {session['user_id']}")
 
-        flash("Withdrawal successful")
         return redirect(url_for("dashboard"))
 
     return render_template("withdraw.html")
 
-# ---------------- TRANSFER ---------------- #
+# ================= TRANSFER =================
 
 @app.route("/transfer", methods=["GET","POST"])
 @login_required
 def transfer():
     if request.method == "POST":
-        receiver = request.form["email"]
-        amount = float(request.form["amount"])
 
-        conn = get_db()
-        cur = conn.cursor()
+        amount = Decimal(request.form["amount"])
 
-        cur.execute("SELECT id FROM users WHERE email=?", (receiver,))
-        receiver_user = cur.fetchone()
+        acc = accounts_table.get_item(Key={"email": session["user_id"]})["Item"]
 
-        if not receiver_user:
-            flash("Receiver not found")
+        if acc["balance"] < amount:
+            flash("Insufficient balance")
             return redirect(url_for("transfer"))
 
-        receiver_id = receiver_user[0]
+        accounts_table.update_item(
+            Key={"email": session["user_id"]},
+            UpdateExpression="SET balance = balance - :a",
+            ExpressionAttributeValues={":a": amount}
+        )
 
-        cur.execute("SELECT balance FROM accounts WHERE user_id=?",
-                    (session["user_id"],))
-        balance = cur.fetchone()[0]
+        transactions_table.put_item(Item={
+            "email": session["user_id"],
+            "timestamp": str(datetime.utcnow()),
+            "type": "Transfer",
+            "amount": amount
+        })
 
-        if balance < amount:
-            flash("Not enough balance")
-            return redirect(url_for("transfer"))
+        send_alert(f"Transfer of ₹{amount} from {session['user_id']}")
 
-        cur.execute("UPDATE accounts SET balance = balance - ? WHERE user_id=?",
-                    (amount,session["user_id"]))
-        cur.execute("UPDATE accounts SET balance = balance + ? WHERE user_id=?",
-                    (amount,receiver_id))
-
-        cur.execute("""INSERT INTO transactions 
-                       (user_id,type,amount,date) 
-                       VALUES (?,?,?,?)""",
-                    (session["user_id"],f"Transfer to {receiver}",amount,str(datetime.now())))
-
-        conn.commit()
-        conn.close()
-
-        flash("Transfer successful!")
         return redirect(url_for("dashboard"))
 
     return render_template("transfer.html")
 
-# ---------------- TRANSACTIONS ---------------- #
+# ================= HISTORY =================
 
-@app.route("/transactions")
+@app.route("/history")
 @login_required
-def transactions():
-    conn = get_db()
-    cur = conn.cursor()
+def history():
 
-    cur.execute("SELECT type,amount,date FROM transactions WHERE user_id=?",
-                (session["user_id"],))
-    data = cur.fetchall()
+    response = transactions_table.scan()
 
-    conn.close()
+    user_tx = [
+        t for t in response["Items"]
+        if t["email"] == session["user_id"]
+    ]
 
-    return render_template("transactions.html", transactions=data)
+    user_tx.sort(key=lambda x: x["timestamp"], reverse=True)
 
-# ---------------- RUN ---------------- #
+    return render_template("history.html", transactions=user_tx)
+
+# ================= RUN =================
 
 if __name__ == "__main__":
     app.run(debug=True)
+
