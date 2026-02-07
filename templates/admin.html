@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<style>
+table { border-collapse: collapse; width: 80%; margin-bottom: 20px; }
+th, td { border: 1px solid #777; padding: 8px; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>👨‍💼 Admin Dashboard</h1>
+
+<h2>Total Bank Balance: ₹ {{ total_balance }}</h2>
+
+<h2>Users</h2>
+<table>
+<tr><th>ID</th><th>Name</th><th>Email</th></tr>
+{% for u in users %}
+<tr><td>{{u[0]}}</td><td>{{u[1]}}</td><td>{{u[2]}}</td></tr>
+{% endfor %}
+</table>
+
+<h2>Recent Transactions</h2>
+<table>
+<tr><th>User</th><th>Type</th><th>Amount</th><th>Date</th></tr>
+{% for t in transactions %}
+<tr><td>{{t[0]}}</td><td>{{t[1]}}</td><td>{{t[2]}}</td><td>{{t[3]}}</td></tr>
+{% endfor %}
+</table>
+
+<a href="/dashboard">Back</a>
+
+</body>
+</html>

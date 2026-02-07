@@ -1,20 +1,95 @@
-<div class="navbar">
-  <div class="logo">CloudBank</div>
-  <div>
-    <a href="/">Home</a>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-    <a href="/dashboard">Dashboard</a>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Cloud Bank Profile</title>
 
-<link rel="stylesheet" href="/static/css/style.css">
+<style>
+body{
+    background:#f4f7fb;
+    font-family:Arial, sans-serif;
+}
+.profile-box{
+    max-width:700px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+h2{
+    text-align:center;
+    color:#0a2a66;
+}
+.info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+.card{
+    background:#eef2ff;
+    padding:15px;
+    border-radius:8px;
+}
+label{
+    font-weight:bold;
+    color:#134db8;
+}
+.value{
+    margin-top:5px;
+}
+.full{
+    grid-column:1/3;
+}
+</style>
+</head>
 
-<div class="container">
+<body>
+
+<div class="profile-box">
+
+<h2>My Account Profile</h2>
+
+<div class="info">
+
 <div class="card">
-<h2>{{user.name}}</h2>
-<p>{{user.email}}</p>
+<label>First Name</label>
+<div class="value">{{ user.first_name }}</div>
 </div>
+
+<div class="card">
+<label>Last Name</label>
+<div class="value">{{ user.last_name }}</div>
 </div>
-<footer class="footer">
-  &copy; 2024 Cloud Bank. All rights reserved.
+
+<div class="card">
+<label>Email</label>
+<div class="value">{{ user.email }}</div>
+</div>
+
+<div class="card">
+<label>Date of Birth</label>
+<div class="value">{{ user.dob }}</div>
+</div>
+
+<div class="card">
+<label>Account Number</label>
+<div class="value">{{ user.account_number }}</div>
+</div>
+
+<div class="card">
+<label>Mobile</label>
+<div class="value">{{ user.phone }}</div>
+</div>
+
+<div class="card full">
+<label>Address</label>
+<div class="value">{{ user.address }}</div>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,23 +1,100 @@
-<div class="navbar">
-  <div class="logo">CloudBank</div>
-  <div>
-    <a href="/">Home</a>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-    <a href="/dashboard">Dashboard</a>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Deposit Money | Cloud Bank</title>
 
-<link rel="stylesheet" href="/static/css/style.css">
+<style>
+body{
+    margin:0;
+    background:#f4f7fb;
+    font-family:Arial, sans-serif;
+}
 
-<div class="container">
-<div class="card">
-<h2>Deposit Money</h2>
-<form method="post">
-<input name="amount" placeholder="Enter Amount">
-<button class="btn">Deposit</button>
+nav{
+    background:#0a2a66;
+    padding:15px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:white;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    margin-left:20px;
+}
+
+.back{
+    font-size:22px;
+}
+
+.box{
+    max-width:450px;
+    background:white;
+    margin:80px auto;
+    padding:35px;
+    border-radius:14px;
+    box-shadow:0 0 18px rgba(0,0,0,.1);
+    text-align:center;
+}
+
+h2{
+    color:#0a2a66;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin:20px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#27ae60;
+    border:none;
+    color:white;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1e8c4f;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div>
+        <a class="back" href="/dashboard">←</a>
+        Cloud Bank
+    </div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/profile">Profile</a>
+        <a href="/history">History</a>
+
+    </div>
+</nav>
+
+<div class="box">
+<h2>Deposit Funds</h2>
+
+<form method="POST">
+    <input type="number" name="amount" placeholder="Enter amount (₹)" required>
+    <button>Deposit Money</button>
 </form>
+
 </div>
-</div>
-<footer class="footer">
-  &copy; 2024 Cloud Bank. All rights reserved.
+
+</body>
+</html>

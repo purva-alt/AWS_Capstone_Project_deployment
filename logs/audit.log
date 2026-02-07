@@ -1,0 +1,4 @@
+def log_action(action):
+    with open("logs/audit.log", "a") as f:
+        f.write(f"{action}\n")
+log_action(f"User {user_id} transferred {amount}")
