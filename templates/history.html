@@ -1,87 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Transaction History</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            margin-top: 40px;
+            background: white;
             padding: 20px;
+            border-radius: 10px;
         }
         h2 {
             text-align: center;
+            color: #333;
         }
         table {
-            width: 80%;
-            margin: auto;
+            width: 100%;
             border-collapse: collapse;
-            background-color: #ffffff;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
+            margin-top: 20px;
         }
         th {
-            background-color: #007bff;
+            background: #007bff;
             color: white;
+            padding: 10px;
+        }
+        td {
+            padding: 10px;
+            text-align: center;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .no-data {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 18px;
-            color: #666;
+            background: #f2f2f2;
         }
         .back {
             display: block;
-            margin: 20px auto;
-            width: fit-content;
+            text-align: center;
+            margin-top: 20px;
             text-decoration: none;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
-        }
-        .back:hover {
-            background-color: #218838;
+            color: #007bff;
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
+<div class="container">
+    <h2>Transaction History</h2>
 
-<h2>Transaction History</h2>
+    {% if transactions %}
+    <table>
+        <!-- TABLE HEADER -->
+        <tr>
+            <th>Date</th>
+            <th>Transaction</th>
+            <th>Mode</th>
+            <th>Amount</th>
+        </tr>
 
-{% if transactions and transactions|length > 0 %}
+        <!-- TABLE BODY -->
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.time }}</td>
 
-<table>
-    <tr>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Date & Time</th>
-    </tr>
+            {% if t.type == "SENT" %}
+                <td style="color:red;">Sent to {{ t.other }}</td>
+            {% elif t.type == "RECEIVED" %}
+                <td style="color:green;">Received from {{ t.other }}</td>
+            {% elif t.type == "DEPOSIT" %}
+                <td style="color:green;">Deposit</td>
+            {% elif t.type == "WITHDRAW" %}
+                <td style="color:red;">Withdraw</td>
+            {% else %}
+                <td>{{ t.type }}</td>
+            {% endif %}
 
-    {% for t in transactions %}
-    <tr>
-        <td>{{ t.type }}</td>
-        <td>₹ {{ t.amount }}</td>
+            <td>
+                {% if t.mode is defined %}
+                    {% if t.mode == "PHONE" %}
+                        📱 PHONE
+                    {% elif t.mode == "BANK" %}
+                        🏦 BANK
+                    {% endif %}
+                {% else %}
+                    —
+                {% endif %}
+            </td>
 
-        {# LOCAL mode uses "time", AWS mode uses "timestamp" #}
-        <td>
-            {{ t.time if t.time is defined else t.timestamp }}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+            <td>₹{{ t.amount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p style="text-align:center;">No transactions found.</p>
+    {% endif %}
 
-{% else %}
-    <div class="no-data">No transactions found</div>
-{% endif %}
-
-<a href="{{ url_for('dashboard') }}" class="back">⬅ Back to Dashboard</a>
-
+    <a class="back" href="/dashboard">⬅ Back to Dashboard</a>
+</div>
 </body>
 </html>

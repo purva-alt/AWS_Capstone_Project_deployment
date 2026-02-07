@@ -1,50 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bank Analytics Dashboard</title>
+    <title>Fraud Analytics Dashboard</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
-        table { border-collapse: collapse; width: 60%; margin-bottom: 20px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: center; }
-        h2 { color: #2c3e50; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #222;
+            color: white;
+        }
+        .alert {
+            color: red;
+            font-weight: bold;
+        }
+        .empty {
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<h1>📊 Analytics Dashboard</h1>
+<h2>🚨 Real-Time Fraud Alerts Dashboard</h2>
 
-<h2>Total Money Transferred</h2>
-<p><b>₹ {{ total_transfer }}</b></p>
-
-<h2>Monthly Transaction Volume</h2>
+{% if alerts and alerts|length > 0 %}
 <table>
-<tr>
-    <th>Month</th>
-    <th>Total Amount</th>
-</tr>
-{% for month, total in monthly_data %}
-<tr>
-    <td>{{ month }}</td>
-    <td>{{ total }}</td>
-</tr>
-{% endfor %}
+    <tr>
+        <th>User Email</th>
+        <th>Reason</th>
+        <th>Amount (₹)</th>
+        <th>Time</th>
+    </tr>
+    {% for alert in alerts %}
+    <tr>
+        <td>{{ alert.email }}</td>
+        <td class="alert">{{ alert.reason }}</td>
+        <td>{{ alert.amount }}</td>
+        <td>{{ alert.time }}</td>
+    </tr>
+    {% endfor %}
 </table>
-
-<h2>Most Active Users</h2>
-<table>
-<tr>
-    <th>User ID</th>
-    <th>Transactions</th>
-</tr>
-{% for user, count in active_users %}
-<tr>
-    <td>{{ user }}</td>
-    <td>{{ count }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<a href="/dashboard">⬅ Back to Dashboard</a>
+{% else %}
+<p class="empty">✅ No suspicious activity detected.</p>
+{% endif %}
 
 </body>
 </html>

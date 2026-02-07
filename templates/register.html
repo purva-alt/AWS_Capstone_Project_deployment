@@ -60,30 +60,54 @@ button:hover{
 <div class="form-box">
 <h2>Open Your Cloud Bank Account</h2>
 
-<form method="POST">
+<form method="POST" style="max-width:520px;margin:auto;">
 
-<div class="grid">
+  <label>First Name</label>
+  <input type="text" name="first_name" required>
 
-<input type="text" name="first_name" placeholder="First Name" required>
-<input type="text" name="last_name" placeholder="Last Name" required>
+  <label>Middle Name</label>
+  <input type="text" name="middle_name">
 
-<input type="email" name="email" placeholder="Email Address" required>
-<input type="date" name="dob" required>
+  <label>Last Name</label>
+  <input type="text" name="last_name" required>
 
-<input type="text" name="account_number" placeholder="Account Number" required>
-<input type="password" name="password" placeholder="Create Password" required>
+  <label>Email</label>
+  <input type="email" name="email" required>
 
-<textarea class="full" name="address" rows="3" placeholder="Full Address" required></textarea>
+  <label>Mobile Number</label>
+  <input type="text" name="phone" required>
 
-<input class="full" type="text" name="phone" placeholder="Mobile Number" required>
+  <label>State</label>
+  <input type="text" name="state" required>
 
-</div>
+  <label>City</label>
+  <input type="text" name="city" required>
 
-<br>
+  <label>Address</label>
+  <input type="text" name="address" required>
 
-<button>Create Account</button>
+  <label>Transaction PIN</label>
+  <input type="password" name="pin" required>
+
+  <label>Password</label>
+  <input type="password" name="password" required>
+
+  <button style="
+      margin-top:20px;
+      width:100%;
+      padding:12px;
+      background:#134db8;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+  ">
+    Create Account
+  </button>
 
 </form>
+
+
 </div>
 
 </body>

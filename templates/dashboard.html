@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard | CloudBank</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard | CloudBank</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
 <div class="dashboard-page">
+    <div class="dashboard-overlay">
 
-<div class="dashboard-overlay">
+        <h2>Welcome to CloudBank</h2>
 
-<h2>Welcome to CloudBank</h2>
-<p><strong>Balance:</strong> ₹{{ balance }}</p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <p style="color:green; font-weight:bold;">{{ messages[0] }}</p>
+          {% endif %}
+        {% endwith %}
 
-<br>
-<p>Choose an action below to manage your account:</p>
-<div class="dashboard-links">
+        <p><strong>Account Balance:</strong> ₹{{ balance }}</p>
 
-<a href="/deposit">Deposit</a>
-<a href="/withdraw">Withdraw</a>
-<a href="/transfer">Transfer</a>
-<a href="/transactions">History</a>
-<a href="/logout">Logout</a>
-<a href="/profile">Profile</a>
+        <br>
+        <p>Choose an action:</p>
+
+        <div class="dashboard-links">
+
+            <!-- Core Banking -->
+            <a href="/deposit">Deposit</a>
+            <a href="/withdraw">Withdraw</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/history">Transaction History</a>
+
+            <!-- Analytics & Monitoring -->
+            <a href="/analytics_dashboard">Fraud Analytics</a>
+            <a href="/generate_report">Reports</a>
+
+            <!-- Profile -->
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+
+        </div>
+
+    </div>
 </div>
-<div class="dashboard-links">
-
 
 </body>
 </html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Analytics Report | Cloud Bank</title>
+
+<style>
+body{
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+}
+
+/* Header */
+.header{
+    background:#0a2a66;
+    color:white;
+    padding:20px 40px;
+}
+.header h1{
+    margin:0;
+    font-size:26px;
+}
+.header p{
+    margin:5px 0 0;
+    font-size:14px;
+    opacity:.85;
+}
+
+/* Container */
+.container{
+    padding:40px;
+}
+
+/* Cards */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:5px;
+    background:#134db8;
+}
+
+.card h3{
+    margin:0;
+    font-size:16px;
+    color:#555;
+}
+
+.card h2{
+    margin:12px 0 0;
+    font-size:30px;
+    color:#0a2a66;
+}
+
+/* Section */
+.section{
+    margin-top:50px;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.section h2{
+    margin-top:0;
+    color:#0a2a66;
+}
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+th{
+    background:#eef2ff;
+    text-align:left;
+    padding:14px;
+    font-size:14px;
+    color:#333;
+}
+td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+tr:hover{
+    background:#f9fbff;
+}
+
+/* Footer */
+.footer{
+    margin-top:40px;
+    text-align:center;
+    font-size:13px;
+    color:#666;
+}
+
+/* Button */
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 26px;
+    background:#134db8;
+    color:white;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.btn:hover{
+    background:#0a2a66;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Cloud Bank Analytics Report</h1>
+    <p>Generated on {{ report.generated_on }}</p>
+</div>
+
+<div class="container">
+
+    <!-- KPI CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Customers</h3>
+            <h2>{{ report.total_users }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Deposits</h3>
+            <h2>₹ {{ report.total_deposits }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Withdrawals</h3>
+            <h2>₹ {{ report.total_withdrawals }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Transfers</h3>
+            <h2>₹ {{ report.total_transfers }}</h2>
+        </div>
+
+    </div>
+
+    <!-- SUMMARY SECTION -->
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <p>
+            This report provides a consolidated overview of Cloud Bank’s
+            financial activity and customer engagement. The analytics engine
+            processes transaction data in real time and summarizes key
+            performance indicators for management decision-making.
+        </p>
+
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Deposit Growth</td>
+                <td>Customer savings inflow trend</td>
+                <td>Stable</td>
+            </tr>
+            <tr>
+                <td>Transaction Volume</td>
+                <td>Overall transfer activity</td>
+                <td>High</td>
+            </tr>
+            <tr>
+                <td>Compliance Status</td>
+                <td>Regulatory thresholds</td>
+                <td>Within Limits</td>
+            </tr>
+        </table>
+
+        <a href="/dashboard" class="btn">⬅ Back to Dashboard</a>
+    </div>
+
+</div>
+
+<div class="footer">
+    © 2026 Cloud Bank Analytics · Secure Financial Intelligence Platform
+</div>
+
+</body>
+</html>
