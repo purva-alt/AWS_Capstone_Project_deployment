@@ -1,205 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Transaction History | Cloud Bank</title>
-
-<style>
-body{
-    margin:0;
-    background:#f4f7fb;
-    font-family:Arial, sans-serif;
-}
-
-nav{
-    background:#0a2a66;
-    padding:15px 40px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    color:white;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    margin-left:20px;
-    font-weight:bold;
-}
-
-.back{
-    font-size:22px;
-}
-
-.container{
-    padding:40px;
-}
-
-.filters{
-    display:flex;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.filter-btn{
-    padding:10px 20px;
-    border-radius:20px;
-    border:none;
-    background:#e0e7ff;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.filter-btn.active{
-    background:#134db8;
-    color:white;
-}
-
-.summary{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-    margin-bottom:30px;
-}
-
-.card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 0 12px rgba(0,0,0,.08);
-    text-align:center;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-}
-
-th,td{
-    padding:14px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-th{
-    background:#134db8;
-    color:white;
-}
-
-.credit{ color:#27ae60; font-weight:bold; }
-.debit{ color:#c0392b; font-weight:bold; }
-</style>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .no-data {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            color: #666;
+        }
+        .back {
+            display: block;
+            margin: 20px auto;
+            width: fit-content;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+        .back:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
-
 <body>
-
-<nav>
-    <div>
-        <a class="back" href="/dashboard">←</a>
-        Cloud Bank
-    </div>
-    <div>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/profile">Profile</a>
-        <a href="/history">History</a>
-    </div>
-</nav>
-
-<div class="container">
 
 <h2>Transaction History</h2>
 
-<!-- FILTERS -->
-<div class="filters">
-    <button class="filter-btn active" onclick="filterTx('today')">Today</button>
-    <button class="filter-btn" onclick="filterTx('week')">Last 7 Days</button>
-    <button class="filter-btn" onclick="filterTx('month')">Last 30 Days</button>
-</div>
+{% if transactions and transactions|length > 0 %}
 
-<!-- SUMMARY -->
-<div class="summary">
-    <div class="card">
-        <h3>Total Inflow</h3>
-        <h2 id="inflow">₹ 0</h2>
-    </div>
-    <div class="card">
-        <h3>Total Outflow</h3>
-        <h2 id="outflow">₹ 0</h2>
-    </div>
-    <div class="card">
-        <h3>Transactions</h3>
-        <h2 id="count">0</h2>
-    </div>
-</div>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Date & Time</th>
+    </tr>
 
-<!-- TRANSACTION TABLE -->
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t.type }}</td>
+        <td>₹ {{ t.amount }}</td>
 
-<table id="txTable">
-<tr>
-    <th>Type</th>
-    <th>Amount</th>
-    <th>Date</th>
-    <th>Time</th>
-</tr>
-
-{% for t in transactions %}
-<tr data-date="{{ t.date }}">
-    <td>{{ t.type }}</td>
-    <td class="{{ 'credit' if 'Deposit' in t.type else 'debit' }}">
-        ₹ {{ t.amount }}
-    </td>
-    <td>{{ t.date.split(' ')[0] }}</td>
-    <td>{{ t.date.split(' ')[1][:8] }}</td>
-</tr>
-{% endfor %}
-
+        {# LOCAL mode uses "time", AWS mode uses "timestamp" #}
+        <td>
+            {{ t.time if t.time is defined else t.timestamp }}
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 
-</div>
+{% else %}
+    <div class="no-data">No transactions found</div>
+{% endif %}
 
-<script>
-function filterTx(range){
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"))
-    event.target.classList.add("active")
-
-    let rows = document.querySelectorAll("#txTable tr")
-    let now = new Date()
-    let inflow = 0
-    let outflow = 0
-    let count = 0
-
-    rows.forEach((row,i)=>{
-        if(i===0) return
-
-        let d = new Date(row.dataset.date)
-        let diff = (now - d) / (1000*60*60*24)
-
-        let show = false
-
-        if(range==="today") show = diff < 1
-        if(range==="week") show = diff <= 7
-        if(range==="month") show = diff <= 30
-
-        row.style.display = show ? "" : "none"
-
-        if(show){
-            let amt = parseFloat(row.children[1].innerText.replace("₹",""))
-            if(row.children[1].classList.contains("credit")) inflow += amt
-            else outflow += amt
-            count++
-        }
-    })
-
-    document.getElementById("inflow").innerText = "₹ " + inflow
-    document.getElementById("outflow").innerText = "₹ " + outflow
-    document.getElementById("count").innerText = count
-}
-
-filterTx("today")
-</script>
+<a href="{{ url_for('dashboard') }}" class="back">⬅ Back to Dashboard</a>
 
 </body>
 </html>
