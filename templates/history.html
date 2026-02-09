@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
     <title>Transaction History</title>
     <style>
         body {
@@ -43,11 +44,60 @@
             text-decoration: none;
             color: #007bff;
             font-weight: bold;
+=======
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .no-data {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            color: #666;
+        }
+        .back {
+            display: block;
+            margin: 20px auto;
+            width: fit-content;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+        .back:hover {
+            background-color: #218838;
+>>>>>>> 93821fe (Fixed transaction history, profile data, and improved user flow)
         }
     </style>
 </head>
-
 <body>
+<<<<<<< HEAD
 <div class="container">
     <h2>Transaction History</h2>
 
@@ -100,5 +150,38 @@
 
     <a class="back" href="/dashboard">⬅ Back to Dashboard</a>
 </div>
+=======
+
+<h2>Transaction History</h2>
+
+{% if transactions and transactions|length > 0 %}
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Date & Time</th>
+    </tr>
+
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t.type }}</td>
+        <td>₹ {{ t.amount }}</td>
+
+        {# LOCAL mode uses "time", AWS mode uses "timestamp" #}
+        <td>
+            {{ t.time if t.time is defined else t.timestamp }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+    <div class="no-data">No transactions found</div>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}" class="back">⬅ Back to Dashboard</a>
+
+>>>>>>> 93821fe (Fixed transaction history, profile data, and improved user flow)
 </body>
 </html>
