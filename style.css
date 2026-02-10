@@ -1,88 +1,66 @@
-body, html {
+/* ================= RESET ================= */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+html, body {
     height: 100%;
-    font-family: Segoe UI, Arial;
 }
 
-/* Full screen background */
+/* ================= DEFAULT BODY ================= */
+body {
+    background: #f4f6fb;
+    color: #333;
+}
+
+/* =================================================
+   HOME PAGE BACKGROUND (uses .hero already in HTML)
+   ================================================= */
 .hero {
-    background: url("images/test.png") no-repeat center center/cover;
-    height: 100vh;
+    background: url("test.png") no-repeat center center / cover;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Overlay card */
-.overlay {
-    background: rgba(255,255,255,0.85);
-    padding: 60px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,.3);
-}
-
-.overlay h1 {
-    color: #0a4dff;
-    font-size: 42px;
-}
-
-.overlay p {
-    font-size: 18px;
-}
-
-.overlay button {
-    background: #0a4dff;
-    border: none;
-    color: white;
-    padding: 14px 30px;
-    font-size: 17px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 10px;
-}
-
-.overlay button:hover {
-    background: #0836c9;
-}
-
-/* Footer */
-.footer {
-    background: #0a4dff;
-    color: white;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-}
-/* AUTH PAGES */
-
+/* =================================================
+   AUTH PAGES (LOGIN / REGISTER)
+   ================================================= */
 .auth-page {
-    background: linear-gradient(120deg,#0a4dff,#6fb1ff);
-    height: 100vh;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a4dff, #6fb1ff);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .auth-card {
-    background: white;
-    width: 360px;
-    padding: 45px;
+    background: #ffffff;
+    width: 380px;
+    padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
     text-align: center;
 }
 
 .auth-card h2 {
     color: #0a4dff;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
     margin-bottom: 20px;
 }
 
 .auth-card input {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin: 12px 0;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -100,115 +78,95 @@ body, html {
 }
 
 .auth-card button:hover {
-    background:#0836c9;
-}
-
-.auth-card p {
-    margin-top: 15px;
+    background: #0836c9;
 }
 
 .auth-card a {
-    color:#0a4dff;
-    text-decoration:none;
-    font-weight:500;
-}
-.page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-/* DASHBOARD */
-
-.dashboard-container{
-    padding:40px;
-    background:#f4f8ff;
-    min-height:100vh;
+    color: #0a4dff;
+    text-decoration: none;
+    font-weight: 600;
 }
 
-.dashboard-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-}
+/* =================================================
+   DASHBOARD BACKGROUND (ALL dashboard pages)
+   ================================================= */
+/* Covers dashboard.html, deposit, withdraw, transfer,
+   history, profile — without touching HTML */
 
-.dashboard-header h2{
-    color:#0a4dff;
-}
-
-.balance-card{
-    background:white;
-    padding:30px;
-    border-radius:16px;
-    box-shadow:0 8px 25px rgba(0,0,0,.15);
-    font-size:26px;
-    margin-bottom:30px;
-}
-
-.action-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:20px;
-}
-
-.action-box{
-    background:white;
-    padding:25px;
-    border-radius:14px;
-    text-align:center;
-    box-shadow:0 6px 18px rgba(0,0,0,.12);
-    transition:0.3s;
-}
-
-.action-box:hover{
-    transform:translateY(-5px);
-}
-
-.action-box a{
-    text-decoration:none;
-    color:#0a4dff;
-    font-weight:600;
-}
-/* DASHBOARD BACKGROUND */
-
-.dashboard-page {
-    background: url("images/dashboard.png") no-repeat center center/cover;
+.dashboard-page,
+.dashboard-container {
+    background: url("dashboard.png") no-repeat center center / cover;
     min-height: 100vh;
     padding: 40px;
 }
 
-/* Light glass effect on dashboard content */
-
-.dashboard-overlay {
-    background: rgba(255, 255, 255, 0.655);
-    padding: 35px;
+/* Glass effect to keep content readable */
+.dashboard-container {
+    background-color: rgba(255, 255, 255, 0.65);
     border-radius: 18px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.3);
 }
-/* DASHBOARD BUTTON STYLE */
 
-.dashboard-links a {
-    display: inline-block;
-    padding: 12px 22px;
-    margin: 8px;
-    border: 2px solid #0a4dff;
+/* ================= DASHBOARD CONTENT ================= */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.dashboard-header h2 {
     color: #0a4dff;
-    text-decoration: none;   /* 🚫 removes underline */
-    border-radius: 10px;
-    font-weight: 600;
+}
+
+.balance-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.action-box {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     transition: 0.3s;
 }
 
-.dashboard-links a:hover {
-    background: #0a4dff;
-    color: white;
+.action-box:hover {
+    transform: translateY(-5px);
 }
-/* NAVBAR */
+
+.action-box a {
+    text-decoration: none;
+    color: #0a4dff;
+    font-weight: 600;
+}
+
+/* ================= NAVBAR ================= */
 .navbar {
     background: #8194c8;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 12px 25px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    color: #fff;
+    background: #0a4dff;
 }
