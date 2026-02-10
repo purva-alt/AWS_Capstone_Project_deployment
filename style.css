@@ -12,161 +12,88 @@ html, body {
 
 /* ================= DEFAULT BODY ================= */
 body {
-    background: #f4f6fb;
-    color: #333;
+    background: url("../images/dashboard.png") no-repeat center center / cover;
+    color: #000;
 }
 
-/* =================================================
-   HOME PAGE BACKGROUND (uses .hero already in HTML)
-   ================================================= */
-.hero {
-    background: url("test.png") no-repeat center center / cover;
-    min-height: 100vh;
+/* ================= DASHBOARD GLASS CARD ================= */
+
+/* Main dashboard container (works even if HTML is simple) */
+body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 60px;
 }
 
-/* =================================================
-   AUTH PAGES (LOGIN / REGISTER)
-   ================================================= */
-.auth-page {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0a4dff, #6fb1ff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.auth-card {
-    background: #ffffff;
-    width: 380px;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    text-align: center;
-}
-
-.auth-card h2 {
-    color: #0a4dff;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.auth-card input {
-    width: 100%;
-    padding: 14px;
-    margin: 12px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-.auth-card button {
-    width: 100%;
-    background: #0a4dff;
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.auth-card button:hover {
-    background: #0836c9;
-}
-
-.auth-card a {
-    color: #0a4dff;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-/* =================================================
-   DASHBOARD BACKGROUND (ALL dashboard pages)
-   ================================================= */
-/* Covers dashboard.html, deposit, withdraw, transfer,
-   history, profile — without touching HTML */
-
-.dashboard-page,
+/* Glass effect card */
+body > div,
 .dashboard-container {
-    background: url("dashboard.png") no-repeat center center / cover;
-    min-height: 100vh;
-    padding: 40px;
-}
-
-/* Glass effect to keep content readable */
-.dashboard-container {
-    background-color: rgba(255, 255, 255, 0.65);
+    width: 90%;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 18px;
+    padding: 40px 50px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
 }
 
-/* ================= DASHBOARD CONTENT ================= */
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+/* ================= TEXT ================= */
+
+h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 15px;
 }
 
-.dashboard-header h2 {
-    color: #0a4dff;
+p {
+    font-size: 18px;
+    margin: 10px 0;
 }
 
-.balance-card {
-    background: white;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    font-size: 24px;
-    margin-bottom: 25px;
-}
-
-.action-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-}
-
-.action-box {
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    transition: 0.3s;
-}
-
-.action-box:hover {
-    transform: translateY(-5px);
-}
-
-.action-box a {
-    text-decoration: none;
-    color: #0a4dff;
+/* Balance highlight */
+p strong,
+.balance {
+    font-size: 20px;
     font-weight: 600;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-    background: #8194c8;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 25px;
+/* ================= BUTTONS ================= */
+
+/* Button container spacing */
+body > a,
+.dashboard-container a {
+    display: inline-block;
+    margin: 18px 14px 0 0;
+}
+
+/* Button style */
+a {
+    padding: 12px 26px;
+    border: 2px solid #2563eb;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2563eb;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+a:hover {
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
 }
 
 /* ================= FOOTER ================= */
+
 .footer {
+    margin-top: 30px;
     text-align: center;
-    padding: 15px;
     font-size: 14px;
-    color: #fff;
-    background: #0a4dff;
+    color: #333;
 }
