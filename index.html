@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Bank | Secure Digital Banking on AWS</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #0a2a66;
+            color: white;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg,#0a2a66,#134db8);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 20px 10px;
+            padding: 12px 30px;
+            background: white;
+            color: #134db8;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .section {
+            padding: 70px 60px;
+            text-align: center;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        }
+
+        .architecture {
+            background: #eef2ff;
+        }
+
+        footer {
+            background: #0a2a66;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cloud Bank</h1>
+    <nav>
+        <a href="/login">Login</a>
+        <a href="/register">Create Account</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Cloud-Hosted Banking Data Analytics & Reporting System</h2>
+    <p>
+        A secure, scalable digital banking platform built using Flask and AWS services such as EC2,
+        DynamoDB, IAM and SNS — delivering fast transactions, real-time monitoring and modern cloud security.
+    </p>
+
+    <a class="btn" href="/register">Get Started</a>
+    <a class="btn" href="/login">Login</a>
+</section>
+
+<section class="section">
+    <h2>About Our Platform</h2>
+    <p>
+        Cloud Bank enables users to manage accounts, perform financial transactions, 
+        and track complete transaction history in real time.
+        Designed with modern cloud architecture principles for performance, security and scalability.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Our Banking Services</h2>
+
+    <div class="services">
+
+        <div class="card">
+            <h3>Account Management</h3>
+            <p>Create secure user accounts with encrypted passwords and session management.</p>
+        </div>
+
+        <div class="card">
+            <h3>Deposit & Withdraw</h3>
+            <p>Instant balance updates with transaction validation.</p>
+        </div>
+
+        <div class="card">
+            <h3>User Transfers</h3>
+            <p>Fast and secure money transfers between users.</p>
+        </div>
+
+        <div class="card">
+            <h3>Transaction History</h3>
+            <p>Complete financial logs for transparency and reporting.</p>
+        </div>
+
+        <div class="card">
+            <h3>Fraud Monitoring</h3>
+            <p>Real-time detection of suspicious activities.</p>
+        </div>
+
+        <div class="card">
+            <h3>Cloud Analytics</h3>
+            <p>Scalable data storage and fast queries using DynamoDB.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="section architecture">
+    <h2>Cloud Architecture</h2>
+    <p>
+        Flask Backend hosted on AWS EC2 <br>
+        Secure Access with AWS IAM <br>
+        Data Storage on DynamoDB <br>
+        Real-time Notifications using AWS SNS <br>
+        HTTPS Secure Communication
+    </p>
+</section>
+
+<section class="section">
+    <h2>Why Choose Cloud Bank?</h2>
+    <p>
+        ✔ Highly Secure <br>
+        ✔ Cloud Scalable <br>
+        ✔ Real-time Monitoring <br>
+        ✔ Fast Performance <br>
+        ✔ Industry-Standard Architecture
+    </p>
+
+    <a class="btn" href="/register">Create Your Account Now</a>
+</section>
+
+<footer>
+    <p>© 2026 Cloud Bank | Built with Flask & AWS</p>
+</footer>
+
+</body>
+</html>
