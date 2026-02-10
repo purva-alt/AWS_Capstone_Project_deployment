@@ -413,7 +413,6 @@ def generate_report():
     return render_template("report_form.html")
 
 
-
 # ================= HISTORY =================
 
 @app.route("/history")
