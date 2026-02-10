@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transfer Money | Cloud Bank</title>
+
+<style>
+body{
+    background:#f2f6ff;
+    font-family:Arial, sans-serif;
+}
+
+.transfer-box{
+    max-width:850px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:14px;
+    box-shadow:0 0 20px rgba(0,0,0,.12);
+}
+
+h2{
+    text-align:center;
+    color:#0a2a66;
+    margin-bottom:10px;
+}
+
+.tabs{
+    display:flex;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+.tab{
+    padding:12px 25px;
+    cursor:pointer;
+    border-radius:30px;
+    background:#e0e7ff;
+    margin:5px;
+    font-weight:bold;
+}
+
+.tab.active{
+    background:#134db8;
+    color:white;
+}
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+input{
+    padding:12px;
+    border-radius:7px;
+    border:1px solid #ccc;
+    font-size:15px;
+    width:100%;
+}
+
+button{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    background:#134db8;
+    color:white;
+    border:none;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0a2a66;
+}
+
+.note{
+    background:#eef2ff;
+    padding:12px;
+    border-radius:8px;
+    font-size:14px;
+    margin-top:15px;
+    text-align:center;
+}
+
+.back{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    font-weight:bold;
+    color:#134db8;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="transfer-box">
+
+<h2>Send Money Securely</h2>
+
+<!-- SUCCESS / ERROR MESSAGE -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <p style="color:green; text-align:center; font-weight:bold;">
+        {{ messages[0] }}
+    </p>
+
+    <script>
+        setTimeout(function(){
+            window.location.href = "/dashboard";
+        }, 2000);
+    </script>
+  {% endif %}
+{% endwith %}
+
+<div class="tabs">
+    <div class="tab active" onclick="showForm('phone')">Phone Transfer</div>
+</div>
+
+<!-- PHONE TRANSFER FORM -->
+
+<form class="form active" id="phone" method="POST" action="/transfer">
+<div class="grid">
+
+<input type="text" name="receiver_phone" placeholder="Receiver Phone Number" required>
+<input type="number" name="amount" placeholder="Amount (₹)" required>
+
+<input type="password" name="pin" placeholder="Enter PIN" required>
+<input type="text" name="note" placeholder="Message (optional)">
+
+</div>
+
+<button>Send Money</button>
+
+<div class="note">
+You can send money to registered or unregistered phone numbers.
+</div>
+</form>
+
+<a class="back" href="/dashboard">⬅ Back to Dashboard</a>
+
+</div>
+
+<script>
+function showForm(type){
+    document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+
+    document.getElementById(type).classList.add("active");
+    event.target.classList.add("active");
+}
+</script>
+
+</body>
+</html>
