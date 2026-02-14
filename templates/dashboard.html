@@ -2,47 +2,149 @@
 <html>
 <head>
     <title>Dashboard | CloudBank</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
 
-<div class="dashboard-page">
-    <div class="dashboard-overlay">
+<div class="dashboard-container">
 
-        <h2>Welcome to CloudBank</h2>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>CloudBank</h2>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/deposit">Deposit</a>
+        <a href="/withdraw">Withdraw</a>
+        <a href="/transfer">Transfer</a>
+        <a href="/history">Transactions</a>
+        <a href="/analytics_dashboard">Fraud Analytics</a>
+        <a href="/generate_report">Reports</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
 
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <p style="color:green; font-weight:bold;">{{ messages[0] }}</p>
-          {% endif %}
-        {% endwith %}
+    <!-- Main Content -->
+    <div class="main-content">
 
-        <p><strong>Account Balance:</strong> ₹{{ balance }}</p>
+        <!-- Top Header -->
+        <div class="top-bar">
+            <div>
+                <h3>Welcome, {{ first_name }}</h3>
+                <p>Account No: {{ account_number }}</p>
+            </div>
 
-        <br>
-        <p>Choose an action:</p>
+            <div class="profile-dropdown">
+                <button onclick="toggleDropdown()">👤</button>
+                <div id="dropdownMenu" class="dropdown-content">
+                    <a href="/profile">My Profile</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        </div>
 
-        <div class="dashboard-links">
+        <!-- Fraud Alert Section -->
+        {% if alerts and alerts|length > 0 %}
+        <div style="
+            background:#ffe6e6;
+            border-left:6px solid #e53935;
+            padding:15px;
+            margin:20px 0;
+            border-radius:10px;
+        ">
+            <h3 style="color:#c62828;">⚠ Suspicious Activity Detected</h3>
 
-            <!-- Core Banking -->
-            <a href="/deposit">Deposit</a>
-            <a href="/withdraw">Withdraw</a>
-            <a href="/transfer">Transfer</a>
-            <a href="/history">Transaction History</a>
+            {% for alert in alerts %}
+                <div style="
+                    background:#ffffff;
+                    padding:10px;
+                    margin-top:10px;
+                    border-radius:6px;
+                ">
+                    <p><strong>Reason:</strong> {{ alert.reason }}</p>
+                    <p><strong>Amount:</strong> ₹{{ alert.amount }}</p>
+                    <p><strong>Time:</strong> {{ alert.time }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-            <!-- Analytics & Monitoring -->
-            <a href="/analytics_dashboard">Fraud Analytics</a>
-            <a href="/generate_report">Report</a>
+        <!-- Summary Cards -->
+        <div class="card-container">
 
-            <!-- Profile -->
-            <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
+            <div class="summary-card">
+                <h4>Current Balance</h4>
+                <p>₹{{ balance }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h4>Total Deposits</h4>
+                <p>₹{{ deposits }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h4>Total Withdrawals</h4>
+                <p>₹{{ withdrawals }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h4>Total Transfers</h4>
+                <p>₹{{ transfers }}</p>
+            </div>
 
         </div>
 
+        <!-- Mini Graph -->
+        <div class="graph-container">
+            <canvas 
+                id="transactionChart"
+                data-deposits="{{ deposits }}"
+                data-withdrawals="{{ withdrawals }}"
+                data-transfers="{{ transfers }}">
+            </canvas>
+        </div>
+
     </div>
+
 </div>
+
+<script>
+function toggleDropdown() {
+    document.getElementById("dropdownMenu").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('button')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            dropdowns[i].classList.remove('show');
+        }
+    }
+}
+
+const canvas = document.getElementById('transactionChart');
+
+const deposits = parseFloat(canvas.dataset.deposits);
+const withdrawals = parseFloat(canvas.dataset.withdrawals);
+const transfers = parseFloat(canvas.dataset.transfers);
+
+new Chart(canvas, {
+    type: 'bar',
+    data: {
+        labels: ['Deposits', 'Withdrawals', 'Transfers'],
+        datasets: [{
+            label: 'Transaction Summary',
+            data: [deposits, withdrawals, transfers],
+            backgroundColor: ['#2ecc71', '#e74c3c', '#3498db']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+</script>
 
 </body>
 </html>

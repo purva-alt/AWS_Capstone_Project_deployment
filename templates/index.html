@@ -2,92 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cloud Bank | Secure Digital Banking on AWS</title>
+    <title>Cloud Bank | Trusted Digital Banking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
-        body {
-            margin: 0;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #222;
         }
 
-        header {
-            background: #0a2a66;
-            color: white;
-            padding: 20px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body{
+            background:#f4f7fb;
+            color:#222;
         }
 
-        header h1 {
-            margin: 0;
+        header{
+            background:#003366;
+            color:white;
+            padding:15px 60px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: bold;
+        header h1{
+            font-size:26px;
         }
 
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(135deg,#0a2a66,#134db8);
-            color: white;
+        nav a{
+            color:white;
+            text-decoration:none;
+            margin-left:25px;
+            font-weight:bold;
         }
 
-        .hero h2 {
-            font-size: 42px;
+        nav a:hover{
+            text-decoration:underline;
         }
 
-        .hero p {
-            font-size: 18px;
-            max-width: 800px;
-            margin: auto;
+        .hero{
+            background:linear-gradient(rgba(0,51,102,0.85), rgba(0,51,102,0.85)),
+                       url("{{ url_for('static', filename='images/bank-bg.jpg') }}");
+            background-size:cover;
+            background-position:center;
+            color:white;
+            text-align:center;
+            padding:120px 20px;
         }
 
-        .btn {
-            display: inline-block;
-            margin: 20px 10px;
-            padding: 12px 30px;
-            background: white;
-            color: #134db8;
-            border-radius: 5px;
-            font-weight: bold;
-            text-decoration: none;
+        .hero h2{
+            font-size:40px;
+            margin-bottom:20px;
         }
 
-        .section {
-            padding: 70px 60px;
-            text-align: center;
+        .hero p{
+            max-width:850px;
+            margin:auto;
+            font-size:18px;
         }
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-            gap: 25px;
-            margin-top: 40px;
+        .btn{
+            display:inline-block;
+            margin:25px 10px;
+            padding:12px 30px;
+            background:#ffcc00;
+            color:#003366;
+            font-weight:bold;
+            text-decoration:none;
+            border-radius:5px;
         }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        .btn:hover{
+            background:white;
         }
 
-        .architecture {
-            background: #eef2ff;
+        .section{
+            padding:70px 60px;
+            text-align:center;
         }
 
-        footer {
-            background: #0a2a66;
-            color: white;
-            text-align: center;
-            padding: 20px;
+        .section h2{
+            margin-bottom:20px;
+            color:#003366;
         }
+
+        .services{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px;
+            margin-top:40px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:8px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3{
+            color:#003366;
+            margin-bottom:10px;
+        }
+
+        .architecture{
+            background:#e9f0fb;
+        }
+
+        .stats{
+            background:#003366;
+            color:white;
+        }
+
+        .branches{
+            background:#f0f4ff;
+        }
+
+        .contact{
+            background:#003366;
+            color:white;
+        }
+
+        footer{
+            background:#001a33;
+            color:white;
+            text-align:center;
+            padding:15px;
+            font-size:14px;
+        }
+
+        @media(max-width:768px){
+            header{
+                flex-direction:column;
+            }
+            nav{
+                margin-top:10px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -95,95 +149,131 @@
 <header>
     <h1>Cloud Bank</h1>
     <nav>
-        <a href="/login">Login</a>
-        <a href="/register">Create Account</a>
+        <a href="/login">Net Banking</a>
+        <a href="/register">Open Account</a>
     </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-    <h2>Cloud-Hosted Banking Data Analytics & Reporting System</h2>
+    <h2>Welcome to Cloud Bank – Secure. Trusted. Reliable.</h2>
     <p>
-        A secure, scalable digital banking platform built using Flask and AWS services such as EC2,
-        DynamoDB, IAM and SNS — delivering fast transactions, real-time monitoring and modern cloud security.
+        Cloud Bank provides secure savings accounts, fixed deposits, digital fund transfers,
+        loan services, and real-time transaction monitoring with industry-grade encryption.
+        Experience seamless digital banking powered by secure cloud infrastructure.
     </p>
 
-    <a class="btn" href="/register">Get Started</a>
-    <a class="btn" href="/login">Login</a>
+    <a class="btn" href="/register">Open Savings Account</a>
+    <a class="btn" href="/login">Login to Net Banking</a>
 </section>
 
+<!-- ABOUT -->
 <section class="section">
-    <h2>About Our Platform</h2>
+    <h2>About Cloud Bank</h2>
     <p>
-        Cloud Bank enables users to manage accounts, perform financial transactions, 
-        and track complete transaction history in real time.
-        Designed with modern cloud architecture principles for performance, security and scalability.
+        Cloud Bank is a next-generation digital banking institution designed to provide
+        secure and transparent financial services. Our platform ensures encrypted
+        transactions, role-based access control, and real-time fraud monitoring.
+        We focus on delivering reliable banking solutions for individuals and businesses.
     </p>
 </section>
 
+<!-- SERVICES -->
 <section class="section">
-    <h2>Our Banking Services</h2>
+    <h2>Our Banking Products & Services</h2>
 
     <div class="services">
 
         <div class="card">
-            <h3>Account Management</h3>
-            <p>Create secure user accounts with encrypted passwords and session management.</p>
+            <h3>Savings Accounts</h3>
+            <p>Zero-balance digital savings accounts with up to 4% annual interest.</p>
         </div>
 
         <div class="card">
-            <h3>Deposit & Withdraw</h3>
-            <p>Instant balance updates with transaction validation.</p>
+            <h3>Fixed Deposits</h3>
+            <p>Earn up to 7.5% interest with flexible tenure options.</p>
         </div>
 
         <div class="card">
-            <h3>User Transfers</h3>
-            <p>Fast and secure money transfers between users.</p>
+            <h3>Fund Transfers</h3>
+            <p>Secure NEFT, RTGS, IMPS and internal transfers.</p>
         </div>
 
         <div class="card">
-            <h3>Transaction History</h3>
-            <p>Complete financial logs for transparency and reporting.</p>
+            <h3>Loan Services</h3>
+            <p>Personal loans, home loans and business loans with competitive interest rates.</p>
         </div>
 
         <div class="card">
-            <h3>Fraud Monitoring</h3>
-            <p>Real-time detection of suspicious activities.</p>
+            <h3>Debit & Credit Cards</h3>
+            <p>Secure card services with online transaction protection.</p>
         </div>
 
         <div class="card">
-            <h3>Cloud Analytics</h3>
-            <p>Scalable data storage and fast queries using DynamoDB.</p>
+            <h3>Fraud Protection</h3>
+            <p>24/7 monitoring and instant SMS/email alerts for suspicious activity.</p>
         </div>
 
     </div>
 </section>
 
-<section class="section architecture">
-    <h2>Cloud Architecture</h2>
+<!-- INTEREST RATES -->
+<section class="section">
+    <h2>Interest Rates</h2>
     <p>
-        Flask Backend hosted on AWS EC2 <br>
-        Secure Access with AWS IAM <br>
-        Data Storage on DynamoDB <br>
-        Real-time Notifications using AWS SNS <br>
+        Savings Account: 3.5% – 4% p.a. <br>
+        Fixed Deposit: Up to 7.5% p.a. <br>
+        Home Loan: Starting from 8.25% p.a. <br>
+        Personal Loan: Starting from 10.5% p.a.
+    </p>
+</section>
+
+<!-- STATS -->
+<section class="section stats">
+    <h2>Our Achievements</h2>
+    <p>
+        5,00,000+ Active Customers <br>
+        2 Million+ Secure Transactions Processed <br>
+        99.9% System Uptime <br>
+        250+ Digital Service Centers Nationwide
+    </p>
+</section>
+
+<!-- CLOUD ARCHITECTURE -->
+<section class="section architecture">
+    <h2>Technology & Security Infrastructure</h2>
+    <p>
+        Cloud Hosted Secure Servers <br>
+        Encrypted Data Storage <br>
+        Role-Based Access Control <br>
+        Multi-Factor Authentication <br>
+        Real-Time Transaction Logging <br>
         HTTPS Secure Communication
     </p>
 </section>
 
-<section class="section">
-    <h2>Why Choose Cloud Bank?</h2>
+<!-- BRANCH NETWORK -->
+<section class="section branches">
+    <h2>Our Branch Network</h2>
     <p>
-        ✔ Highly Secure <br>
-        ✔ Cloud Scalable <br>
-        ✔ Real-time Monitoring <br>
-        ✔ Fast Performance <br>
-        ✔ Industry-Standard Architecture
+        Mumbai • Pune • Delhi • Bengaluru • Hyderabad • Chennai • Kolkata <br><br>
+        250+ Service Centers Across India providing trusted banking support.
     </p>
+</section>
 
-    <a class="btn" href="/register">Create Your Account Now</a>
+<!-- CONTACT -->
+<section class="section contact">
+    <h2>Contact Us</h2>
+    <p>
+        Customer Care: 1800-123-4567 <br>
+        Email: support@cloudbank.com <br>
+        Head Office: Cloud Bank Towers, Financial District, Mumbai, India <br>
+        Working Hours: 24/7 Digital Banking Assistance
+    </p>
 </section>
 
 <footer>
-    <p>© 2026 Cloud Bank | Built with Flask & AWS</p>
+    © 2026 Cloud Bank | All Rights Reserved | Secure Digital Banking Platform
 </footer>
 
 </body>

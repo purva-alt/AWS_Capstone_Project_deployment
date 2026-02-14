@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Analytics Report | Cloud Bank</title>
+<title>Enterprise Analytics Report | Cloud Bank</title>
 
 <style>
 body{
@@ -11,80 +11,48 @@ body{
     background: #f4f7fb;
 }
 
-/* Header */
 .header{
     background:#0a2a66;
     color:white;
     padding:20px 40px;
 }
-.header h1{
-    margin:0;
-    font-size:26px;
-}
-.header p{
-    margin:5px 0 0;
-    font-size:14px;
-    opacity:.85;
-}
+.header h1{ margin:0; font-size:26px; }
+.header p{ margin:5px 0 0; font-size:14px; opacity:.85; }
 
-/* Container */
-.container{
-    padding:40px;
-}
+.container{ padding:40px; }
 
-/* Cards */
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
 }
 
 .card{
     background:white;
-    padding:25px;
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    position:relative;
-    overflow:hidden;
-}
-
-.card::after{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:5px;
-    background:#134db8;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 .card h3{
     margin:0;
-    font-size:16px;
+    font-size:14px;
     color:#555;
 }
-
 .card h2{
-    margin:12px 0 0;
-    font-size:30px;
+    margin:10px 0 0;
+    font-size:24px;
     color:#0a2a66;
 }
 
-/* Section */
 .section{
-    margin-top:50px;
+    margin-top:40px;
     background:white;
-    padding:30px;
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-.section h2{
-    margin-top:0;
-    color:#0a2a66;
-}
-
-/* Table */
 table{
     width:100%;
     border-collapse:collapse;
@@ -92,41 +60,31 @@ table{
 }
 th{
     background:#eef2ff;
-    text-align:left;
-    padding:14px;
-    font-size:14px;
-    color:#333;
+    padding:12px;
+    font-size:13px;
 }
 td{
-    padding:14px;
+    padding:12px;
     border-bottom:1px solid #eee;
-    font-size:14px;
+    font-size:13px;
 }
-tr:hover{
-    background:#f9fbff;
+tr:hover{ background:#f9fbff; }
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:10px 20px;
+    background:#134db8;
+    color:white;
+    border-radius:25px;
+    text-decoration:none;
 }
 
-/* Footer */
 .footer{
     margin-top:40px;
     text-align:center;
     font-size:13px;
     color:#666;
-}
-
-/* Button */
-.btn{
-    display:inline-block;
-    margin-top:20px;
-    padding:12px 26px;
-    background:#134db8;
-    color:white;
-    border-radius:30px;
-    text-decoration:none;
-    font-weight:bold;
-}
-.btn:hover{
-    background:#0a2a66;
 }
 </style>
 </head>
@@ -134,15 +92,14 @@ tr:hover{
 <body>
 
 <div class="header">
-    <h1>Cloud Bank Analytics Report</h1>
+    <h1>Cloud Bank Enterprise Analytics Report</h1>
     <p>Generated on {{ report.generated_on }}</p>
 </div>
 
 <div class="container">
 
-    <!-- KPI CARDS -->
+    <!-- 🔥 KPI CARDS -->
     <div class="cards">
-
         <div class="card">
             <h3>Total Customers</h3>
             <h2>{{ report.total_users }}</h2>
@@ -163,39 +120,52 @@ tr:hover{
             <h2>₹ {{ report.total_transfers }}</h2>
         </div>
 
+        <div class="card">
+            <h3>Transaction Volume</h3>
+            <h2>{{ report.transaction_volume }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Average Transaction Value</h3>
+            <h2>₹ {{ report.avg_transaction_value }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Deposit Growth %</h3>
+            <h2>{{ report.deposit_growth }}%</h2>
+        </div>
+
+        <div class="card">
+            <h3>New Customers</h3>
+            <h2>{{ report.new_customers }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Active Customers</h3>
+            <h2>{{ report.active_customers }}</h2>
+        </div>
     </div>
 
-    <!-- SUMMARY SECTION -->
+    <!-- 🔥 TRANSACTION TABLE -->
     <div class="section">
-        <h2>Executive Summary</h2>
-        <p>
-            This report provides a consolidated overview of Cloud Bank’s
-            financial activity and customer engagement. The analytics engine
-            processes transaction data in real time and summarizes key
-            performance indicators for management decision-making.
-        </p>
+        <h2>Transaction Details</h2>
 
         <table>
             <tr>
-                <th>Metric</th>
-                <th>Description</th>
-                <th>Status</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date & Time</th>
             </tr>
+
+            {% for t in report.transactions %}
             <tr>
-                <td>Deposit Growth</td>
-                <td>Customer savings inflow trend</td>
-                <td>Stable</td>
+                <td>{{ t.email }}</td>
+                <td>{{ t.type }}</td>
+                <td>₹ {{ t.amount }}</td>
+                <td>{{ t.time }}</td>
             </tr>
-            <tr>
-                <td>Transaction Volume</td>
-                <td>Overall transfer activity</td>
-                <td>High</td>
-            </tr>
-            <tr>
-                <td>Compliance Status</td>
-                <td>Regulatory thresholds</td>
-                <td>Within Limits</td>
-            </tr>
+            {% endfor %}
         </table>
 
         <a href="/dashboard" class="btn">⬅ Back to Dashboard</a>
@@ -204,7 +174,7 @@ tr:hover{
 </div>
 
 <div class="footer">
-    © 2026 Cloud Bank Analytics · Secure Financial Intelligence Platform
+    © 2026 Cloud Bank · Enterprise Financial Intelligence Platform
 </div>
 
 </body>

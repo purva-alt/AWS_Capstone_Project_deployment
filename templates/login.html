@@ -2,38 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | CloudBank</title>
 
-    <!-- Flask static CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
 
-<div class="auth-page">
-    <div class="auth-card">
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <div class="login-header">
+            <h1>CloudBank</h1>
+            <p>Secure Digital Banking</p>
+        </div>
 
         <h2>Welcome Back 👋</h2>
-        <p class="subtitle">Login to your CloudBank account</p>
+        <p class="subtitle">Login to continue</p>
 
-        <form method="post" action="/login">
-            <input type="email" name="email" placeholder="📧 Email address" required>
-            <input type="password" name="password" placeholder="🔒 Password" required>
+        <form method="POST" action="{{ url_for('login') }}">
 
-            <button type="submit">Login</button>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+
         </form>
 
-        <p class="switch">
-            New user?
-            <a href="/register">Create account</a>
-        </p>
+        <div class="bottom-text">
+            <span>New user?</span>
+            <a href="{{ url_for('register') }}">Create Account</a>
+        </div>
 
     </div>
-</div>
 
-<footer class="footer">
-    &copy; 2024 CloudBank. All rights reserved.
-</footer>
+</div>
 
 </body>
 </html>
